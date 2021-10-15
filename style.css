@@ -27,9 +27,10 @@ body {
     margin-bottom: 0.2rem;
   }
 
-  ol li {
+  ol {
     list-style: none;
     font-size: 15px;
+    padding-left: 0;
   }
 
   img {
@@ -56,6 +57,7 @@ body {
 
    th {
      border-color: white;
+     padding: 0;
    }
 
 
@@ -63,6 +65,7 @@ body {
      background-color: white;
      color: black;
      text-align: center;
+     padding: 0;
    }
 
    input[type=text] {
@@ -81,8 +84,8 @@ body {
     selcect,input[type=number] {
       width:70px;
       height:40px;
-      color: red;
-      font-size: 1.2rem;
+      color:red;
+      font-size:1.2rem;
     }
 
     select {
@@ -90,12 +93,13 @@ body {
       height:40px;
       text-align-last: center;
       color:red;
-      font-size:18px;
+      font-size:1.2rem;
     }
 
     .info-select {
       width:100px;
       color:black;
+      font-size:1.0rem; 
     }
 
     .btns, .call {
