@@ -27,8 +27,8 @@
       </tr>
       <tr>
         <td>
-         <select class="info-select">
-           <option value="">----</option>
+         <select class="info-select" id="enteryear">
+           <option value="0">----</option>
            <option value="2018">2018</option>
            <option value="2019">2019</option>
            <option value="2020">2020</option>
@@ -58,77 +58,77 @@
       <tr>
         <th rowspan="3">공통교양</th>
         <th>국어</th>
-        <td><input type="text" value="2" readonly></td>
+        <td><input type="text" value="2" id=kor-st readonly></td>
         <td><input type="text" value="2" readonly></td>
         <td colspan="2">
-          <select id="kor">
+          <select id="kor-credits" onchange="sumCal()">
             <option value="0">0</option>
             <option value="2">2</option>
-        </select><label for="kor">학점</label></td>
+        </select><label for="kor-credits">학점</label></td>
       </tr>
       <tr>
         <th>영어</th>
-        <td><input type="text"  value="2" readonly></td>
+        <td><input type="text"  value="2" id="eng-st" readonly></td>
         <td><input type="text"  value="2" readonly></td>
         <td colspan="2">
-         <select id="eng" class="">
+         <select id="eng-credits" onchange="sumCal()">
            <option value="0">0</option>
            <option value="2">2</option>
-         </select><label for="eng">학점</label>
+         </select><label for="eng-credits">학점</label>
          <br><input type="checkbox" id="eng-check"><label for="eng-check">면제</label>
         </td>
       </tr>
       <tr>
         <th>기타</th>
-        <td><input type="text" value="10" readonly></td>
+        <td><input type="text" value="10"  id="etc-st" readonly></td>
         <td><input type="text" value="10" readonly></td>
         <td colspan="2">
-          <select id="etc" class="">
+          <select id="etc-credits" onchange="sumCal()">
             <option value="0">0</option>
             <option value="2">2</option>
             <option value="4">4</option>
             <option value="6">6</option>
             <option value="8">8</option>
             <option value="10">10</option>
-          </select><label for="etc">학점</label>
+          </select><label for="etc-credits">학점</label>
           <br><input type="checkbox" id="회계학원론"><label for="회계학원론">회계학원론 이수</label>
         </td>
       </tr>
       <tr>
         <th colspan="2" rowspan="5">핵심교양</th>
-        <td rowspan="5"><input type="text" value="14" readonly></td>
+        <td rowspan="5"><input type="text" value="14" id=core-st  readonly></td>
         <td rowspan="5"></td>
-        <td><input type="checkbox" id="core1" value=""><label for="core1">도전</label></td>
+        <td><input type="checkbox" id="core1"><label for="core1">도전</label></td>
         <td rowspan="5">
-         <input type="number" id="core" value="" placeholder="0" min="0"><label for="core">학점</label>
+         <input type="number" id="core" value="" placeholder="0" min="0" onchange="sumCal()"><label for="core">학점</label>
         </td>
       </tr>
       <tr>
-        <td><input type="checkbox" id="core2" value=""><label for="core2">창의</label></td>
+        <td><input type="checkbox" id="core2"><label for="core2">창의</label></td>
       </tr>
       <tr>
-        <td><input type="checkbox" id="core3" value=""><label for="core3">융합</label></td>
+        <td><input type="checkbox" id="core3"><label for="core3">융합</label></td>
       </tr>
       <tr>
-        <td><input type="checkbox" id="core4" value=""><label for="core4">신뢰</label></td>
+        <td><input type="checkbox" id="core4"><label for="core4">신뢰</label></td>
       </tr>
       <tr>
-        <td><input type="checkbox" id="core5" value=""><label for="core5">소통</label></td>
+        <td><input type="checkbox" id="core5"><label for="core5">소통</label></td>
       </tr>
       <tr>
         <th colspan="2">선택교양</th>
         <td><input type="text" value="0" readonly></td>
         <td></td>
         <td colspan="2">
-         <input type="number" id="choice" value="" placeholder="0" min="0"><label for="choice">학점</label>
+         <input type="number" id="choice" value="" placeholder="0" min="0" onchange="sumCal()"><label for="choice">학점</label>
         </td>
       </tr>
       <tr>
         <th colspan="2">합계</th>
-        <td><input type="text" value="28" readonly></td>
+        <td><input type="text" value="28" id="lib-st"  readonly></td>
         <td><input type="text" value="45" readonly></td>
         <td colspan="2">
-          <input type="text" id="elective-sum" value="0" readonly style="color:red;"><label for="elective-sum">학점</label>
+          <input type="text" id="lib-sum" value="0" readonly style="color:red;"><label for="lib-sum">학점</label>
         </td>
       </tr>
     </table>
@@ -239,33 +239,33 @@
     <tr>
       <th rowspan="3">졸업<br>인정제</th>
       <th>영어</th>
-      <td><input type="checkbox" id="eng-grade" value=""><label for="eng-grade">통과/면제</label></td>
+      <td><input type="checkbox" id="eng-grade"><label for="eng-grade">통과/면제</label></td>
       <td>전공영어강의 3개 수강<br>또는 영어성적 제출</td>
     </tr>
     <tr>
       <th>한자</th>
-      <td><input type="checkbox" id="chi-grade" value=""><label for="chi-grade">통과/면제</label></td>
+      <td><input type="checkbox" id="chi-grade"><label for="chi-grade">통과/면제</label></td>
       <td>한자시험 3급 이상<br>또는 한자 교과목 2개 수강</td>
     </tr>
     <tr>
       <th>한국어</th>
-      <td><input type="checkbox" id="kor-grade" value=""><label for="kor-grade">통과/면제</label></td>
+      <td><input type="checkbox" id="kor-grade"><label for="kor-grade">통과/면제</label></td>
       <td>TOPIK 4급 이상<br>(외국인 유학생만 해당)</td>
     </tr>
     <tr>
       <th rowspan="2">졸업시험<br>/논문</th>
       <th>주전공</th>
-      <td><input type="checkbox" id="major-test" value=""><label for="major-test">합격</label></td>
+      <td><input type="checkbox" id="major-test"><label for="major-test">합격</label></td>
       <td>실험실습보고,<br>졸업작품,실기발표 등</td>
     </tr>
     <tr>
       <th>복수전공</th>
-      <td><input type="checkbox" id="minor-test" value=""><label for="minor-test">합격/해당없음</label></td>
+      <td><input type="checkbox" id="minor-test"><label for="minor-test">합격/해당없음</label></td>
       <td></td>
     </tr>
     <tr>
       <th colspan="2">전 학년 평점</th>
-      <td><input type="number" id="gpa" value="" placeholder="0.00" min="0" max="4.5" step="0.01"><label for="gpa">/4.5</label></td>
+      <td><input type="number" id="gpa" placeholder="0.00" min="0" max="4.5" step="0.01"><label for="gpa">/4.5</label></td>
       <td>최종 평점 2.0 미만 졸업 불가</td>
     </tr>
   </table>
