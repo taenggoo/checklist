@@ -1,6 +1,9 @@
-const libCheck = document.getElementById("liberalcheck");
 
 const year = document.getElementById("enteryear");
+
+const libForm = document.getElementById("liberal-form");
+const majorForm = document.getElementById("major-form");
+const etcForm = document.getElementById("etc-form");
 
 const korSt = document.getElementById("kor-st");
 const korCrts = document.getElementById("kor-credits");
@@ -14,14 +17,18 @@ const etcCrts = document.getElementById("etc-credits");
 const coreSt = document.getElementById("core-st");
 const coreCrts = document.getElementById("core");
 
-
-
+const choiceSt = document.getElementById("choice-st")
 const choice = document.getElementById("choice");
 
-const libSt = document.getElementById("lib-st");
-const libCrts = document.getElementById("lib-sum");
+const sumSt = document.getElementById("sum-st");
+const sumCrts = document.getElementById("sum");
 
-libCheck.addEventListener("click", libResult);
+const libCheck = document.getElementById("liberalcheck");
+const libReset = document.getElementById("liberalreset");
+const majorCheck = document.getElementById("major-check");
+const majorReset = document.getElementById("major-reset");
+const etcCheck = document.getElementById("etc-check");
+const etcReset = document.getElementById("etc-reset");
 
 function libResult() {
   if(Number(year.value) === 0){
@@ -87,8 +94,8 @@ function libCal() {
 
   result += "\n\n선택교양: " + Number(choice.value) + "학점 이수\n\n"
 
-  if(Number(libSt.value) > Number(libCrts.value)) {
-    result += "교양합계: " + [Number(libSt.value) - Number(libCrts.value)] + "학점 미달"
+  if(Number(sumSt.value) > Number(sumCrts.value)) {
+    result += "교양합계: " + [Number(sumSt.value) - Number(sumCrts.value)] + "학점 미달"
   } else {
     result += "교양합계: 기준 통과"
   }
@@ -97,21 +104,83 @@ alert(result);
 }
 
 function sumCal() {
-  document.getElementById("lib-sum").vaule = Number(korCrts.value) + Number(engCrts.value) + Number(etcCrts.value) + Number(coreCrts.value) + Number(choice.value)
+  document.getElementById("sum").value = Number(korCrts.value) + Number(engCrts.value) + Number(etcCrts.value) + Number(coreCrts.value) + Number(choice.value);
 }
+
+korCrts.addEventListener("change", sumCal);
+engCrts.addEventListener("change", sumCal);
+etcCrts.addEventListener("change", sumCal);
+coreCrts.addEventListener("change", sumCal);
+choice.addEventListener("change", sumCal);
+
+libCheck.addEventListener("click", libResult);
+
+function resetor(form) {
+  form.reset();
+};
+
+libReset.addEventListener("click", function(){
+  resetor(libForm)
+});
+
+majorReset.addEventListener("click", function(){
+  resetor(majorForm)
+});
+
+etcReset.addEventListener("click", function(){
+  resetor(etcForm)
+});
 
 function etcResult() {
   const engExam = document.getElementById("eng-grade").checked;
   const chiExam = document.getElementById("chi-grade").checked;
-  const korExam = document.getElementById("#kor-grade").checked;
+  const korExam = document.getElementById("kor-grade").checked;
   const paper = document.getElementById("major-test").checked;
   const douPaper = document.getElementById("minor-test").checked;
   const gpa = Number(document.getElementById("gpa").value);
 
-  let etcResult = "<기타 졸업요건 결과>\n\n"
 
-  if () {
+  let etcResult = "<기타 졸업요건 결과>\n\n졸업인정제 결과\n"
 
-    
+  if (!engExam) {
+    etcResult += "-영어: 미통과\n"
+  } else {
+    etcResult += "-영어: 통과\n"
   }
+
+  if (!chiExam) {
+    etcResult += "-한자: 미통과\n"
+  } else {
+    etcResult += "-한자: 통과\n"
+  }
+
+  if (!korExam) {
+    etcResult += "-한국어: 미통과\n\n"
+  } else {
+    etcResult += "-한국어: 통과\n\n"
+  }
+
+  etcResult += "논문결과\n"
+
+  if (!paper) {
+    etcResult += "-주전공: 불합격\n"
+  } else {
+    etcResult += "-주전공: 합격\n"
+  }
+
+  if (!douPaper) {
+    etcResult += "-복수전공: 불합격\n\n"
+  } else {
+    etcResult += "-복수전공: 합격/해당없음\n\n"
+  }
+
+  if (gpa < 2) {
+    etcResult += "전 학년 평점: 졸업불가"
+  } else {
+    etcResult += "전 학년 평점: 기준 통과"
+  }
+
+alert(etcResult);
 }
+
+etcCheck.addEventListener("click", etcResult);
