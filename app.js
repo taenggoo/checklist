@@ -1,40 +1,68 @@
-
 const year = document.getElementById("enteryear");
+const multiMajor = document.getElementById("multi-major"); //기본정보
 
 const libForm = document.getElementById("liberal-form");
 const majorForm = document.getElementById("major-form");
 const etcForm = document.getElementById("etc-form");
-
 const korSt = document.getElementById("kor-st");
 const korCrts = document.getElementById("kor-credits");
-
 const engSt = document.getElementById("eng-st");
 const engCrts = document.getElementById("eng-credits");
-
 const etcSt = document.getElementById("etc-st");
 const etcCrts = document.getElementById("etc-credits");
-
 const coreSt = document.getElementById("core-st");
 const coreCrts = document.getElementById("core");
-
-const choiceSt = document.getElementById("choice-st")
+const choiceSt = document.getElementById("choice-st");
 const choice = document.getElementById("choice");
-
 const sumSt = document.getElementById("sum-st");
-const sumCrts = document.getElementById("sum");
+const sumCrts = document.getElementById("sum"); //교양
+
+const baseSt = document.getElementById("base-st");
+const baseCrts = document.getElementById("major_base");
+const reqSt = document.getElementById("req-st");
+const reqCrts = document.getElementById("major_required");
+const majorSt = document.getElementById("major-st");
+const majorCrts = document.getElementById("major");
+const minorSt = document.getElementById("minor-st");
+const minorCrts = document.getElementById("minor");
+const minorNone = document.getElementById("minor-check");
+const linkSt = document.getElementById("link-st");
+const linkCrts = document.getElementById("linkage");
+const linkCrts2 = document.getElementById("cross1");
+const linkNone = document.getElementById("link-check");
+const convSt = document.getElementById("conv-st");
+const convCrts = document.getElementById("convergence");
+const convCrts2 = document.getElementById("cross2");
+const convNone = document.getElementById("conv-check");
+const designSt = document.getElementById("design-st");
+const designCrts = document.getElementById("design");
+const designCrts2 = document.getElementById("cross3");
+const designNone = document.getElementById("design-check");
+const secondSt = document.getElementById("second-st");
+const secondCrts = document.getElementById("second");
+const secondNone = document.getElementById("second-check");
+const freeSt = document.getElementById("free-st");
+const freeCrts = document.getElementById("free");
+const teachSt = document.getElementById("teach-st");
+const teachCrts = document.getElementById("teach");
+const teachNone = document.getElementById("teach-check");
+const majsumSt = document.getElementById("majsum-st");
+const majCrts = document.getElementById("majsum"); //전공
+
 
 const libCheck = document.getElementById("liberalcheck");
 const libReset = document.getElementById("liberalreset");
 const majorCheck = document.getElementById("major-check");
 const majorReset = document.getElementById("major-reset");
 const etcCheck = document.getElementById("etc-check");
-const etcReset = document.getElementById("etc-reset");
+const etcReset = document.getElementById("etc-reset"); //각 영역 체크,리셋 버튼
 
 function libResult() {
-  if(Number(year.value) === 0){
-    alert("입학년도를 선택하세요!");
+  if (Number(year.value) === 0) {
+    year.scrollIntoView();
+    return alert("입학년도를 선택하세요!");
   } else {
-     libCal();
+    libCal();
   }
 }
 
@@ -46,61 +74,61 @@ function libCal() {
   const core4 = document.getElementById("core4").checked;
   const core5 = document.getElementById("core5").checked;
 
-  result+= "입학년도: " + Number(year.value) + "년도\n\n공통교양\n"
+  result += "입학년도: " + Number(year.value) + "년도\n공통교양\n"
 
   if (Number(korSt.value) > Number(korCrts.value)) {
-    result += " - 국어: " + [Number(korSt.value)-Number(korCrts.value)] + "학점 미달\n"
+    result += " - 국어: " + [Number(korSt.value) - Number(korCrts.value)] + "학점 미달\n"
   } else {
     result += " - 국어: 기준 통과\n"
   }
 
   if (Number(engSt.value) > Number(engCrts.value)) {
-    result += " - 영어: " + [Number(engSt.value)-Number(engCrts.value)] + "학점 미달\n"
+    result += " - 영어: " + [Number(engSt.value) - Number(engCrts.value)] + "학점 미달\n"
   } else {
     result += " - 영어: 기준 통과\n"
   }
 
   if (Number(etcSt.value) > Number(etcCrts.value)) {
-    result +=" - 기타: " + [Number(etcSt.value)-Number(etcCrts.value)] + "학점 미달\n\n"
+    result += " - 기타: " + [Number(etcSt.value) - Number(etcCrts.value)] + "학점 미달\n\n"
   } else {
     result += " - 기타: 기준 통과\n\n"
   }
 
   if (Number(coreSt.value) > Number(coreCrts.value)) {
-    result += "핵심교양: " + [Number(coreSt.value)-Number(coreCrts.value)] + "학점 미달\n - 미이수 영역: "
+    result += "핵심교양: " + [Number(coreSt.value) - Number(coreCrts.value)] + "학점 미달\n - 미이수 영역: "
   } else {
     result += "핵심교양: 최소 학점 기준 통과_이수 영역 확인!\n - 미이수 영역: "
   }
 
-  if (!core1){
+  if (!core1) {
     result += "도전 "
   }
 
-  if (!core2){
+  if (!core2) {
     result += "창의 "
   }
 
-  if (!core3){
+  if (!core3) {
     result += "융합 "
   }
 
-  if (!core4){
+  if (!core4) {
     result += "신뢰 "
   }
 
-  if (!core5){
+  if (!core5) {
     result += "소통"
   }
 
   result += "\n\n선택교양: " + Number(choice.value) + "학점 이수\n\n"
 
-  if(Number(sumSt.value) > Number(sumCrts.value)) {
+  if (Number(sumSt.value) > Number(sumCrts.value)) {
     result += "교양합계: " + [Number(sumSt.value) - Number(sumCrts.value)] + "학점 미달"
   } else {
     result += "교양합계: 기준 통과"
   }
 
-alert(result);
+  alert(result);
 }
 
 function sumCal() {
@@ -119,17 +147,64 @@ function resetor(form) {
   form.reset();
 };
 
-libReset.addEventListener("click", function(){
+libReset.addEventListener("click", function() {
   resetor(libForm)
 });
 
-majorReset.addEventListener("click", function(){
+majorReset.addEventListener("click", function() {
   resetor(majorForm)
 });
 
-etcReset.addEventListener("click", function(){
+etcReset.addEventListener("click", function() {
   resetor(etcForm)
 });
+
+function majorResult() {
+  if (Number(year.value) === 0) {
+    year.scrollIntoView();
+    return alert("입학년도를 선택하세요!");
+  } else if(Number(multiMajor.value) === 0){
+    year.scrollIntoView();
+    return alert("다전공을 선택하세요!");
+  } else {
+    majorCal();
+  }
+}
+
+function majorCal() {
+  let result = "<전공영역 결과>\n"
+  result += "입학년도: " + Number(year.value) + "년도\n\n"
+
+  if (Number(baseSt.value) > Number(baseCrts.value)) {
+    result += "전공기초: " + [Number(baseSt.value) - Number(baseCrts.value)] + "학점 미달\n"
+  } else {
+    result += "전공기초: 기준 통과\n"
+  }
+
+  if (Number(reqSt.value) > Number(reqCrts.value)) {
+    result += "전공필수: " + [Number(reqSt.value) - Number(reqCrts.value)] + "학점 미달\n"
+  } else {
+    result += "전공필수: 기준 통과\n"
+  }
+
+  if (Number(majorSt.value) > Number(majorCrts.value)) {
+    result += "전공: " + [Number(majorSt.value) - Number(majorCrts.value)] + "학점 미달\n"
+  } else {
+    result += "전공: 기준 통과\n"
+  }
+
+  if (!minorNone.checked) {
+    if (Number(minorSt.value) > Number(minorCrts.value)) {
+      result += "복수전공: " + [Number(minorSt.value) - Number(minorCrts.value)] + "학점 미달\n"
+    } else {
+      result += "복수전공: 최소학점 기준 통과_세부기준 확인요망\n"
+    }
+  }
+
+  alert(result);
+}
+
+majorCheck.addEventListener("click", majorResult)
 
 function etcResult() {
   const engExam = document.getElementById("eng-grade").checked;
@@ -180,7 +255,7 @@ function etcResult() {
     etcResult += "전 학년 평점: 기준 통과"
   }
 
-alert(etcResult);
+  alert(etcResult);
 }
 
 etcCheck.addEventListener("click", etcResult);
