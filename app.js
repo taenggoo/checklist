@@ -43,6 +43,7 @@ const secondCrts = document.getElementById("second");
 const secondNone = document.getElementById("second-check");
 const freeSt = document.getElementById("free-st");
 const freeCrts = document.getElementById("free");
+const cauceminar = document.getElementById("CAU_CEMINAR");
 const teachSt = document.getElementById("teach-st");
 const teachCrts = document.getElementById("teach");
 const teachNone = document.getElementById("teach-check");
@@ -129,11 +130,11 @@ function libCal() {
   }
 
   alert(result);
-}
+};
 
 function sumCal() {
   document.getElementById("sum").value = Number(korCrts.value) + Number(engCrts.value) + Number(etcCrts.value) + Number(coreCrts.value) + Number(choice.value);
-}
+};
 
 korCrts.addEventListener("change", sumCal);
 engCrts.addEventListener("change", sumCal);
@@ -166,10 +167,19 @@ function majorResult() {
   } else if(Number(multiMajor.value) === 0){
     year.scrollIntoView();
     return alert("다전공을 선택하세요!");
+  } else if (Number(linkCrts2.value) > 6) {
+    linkCrts2.scrollIntoView();
+    return alert("연계전공의 교차인정 최대 학점은 6학점입니다");
+  } else if (Number(convCrts2.value) > 6) {
+    convCrts2.scrollIntoView();
+    return alert("융합전공의 교차인정 최대 학점은 6학점입니다");
+  } else if (Number(designCrts2.value) > 6) {
+    designCrts2.scrollIntoView();
+    return alert("자기설계전공의 교차인정 최대 학점은 6학점입니다");
   } else {
     majorCal();
   }
-}
+};
 
 function majorCal() {
   let result = "<전공영역 결과>\n"
@@ -201,10 +211,77 @@ function majorCal() {
     }
   }
 
-  alert(result);
-}
+  if (!linkNone.checked) {
+    if (Number(linkSt.value) > [Number(linkCrts.value) + Number(linkCrts2.value)]) {
+      result += "연계전공: " + [Number(linkSt.value) - Number(linkCrts.value) - Number(linkCrts2.value)] + "학점 미달\n"
+    } else {
+       result += "연계전공: 최소학점 기준 통과_세부기준 확인요망\n"
+    }
+  }
 
-majorCheck.addEventListener("click", majorResult)
+  if (!convNone.checked) {
+    if (Number(convSt.value) > [Number(convCrts.value) + Number(convCrts2.value)]) {
+      result += "융합전공: " + [Number(convSt.value) - Number(convCrts.value) - Number(convCrts2.value)] + "학점 미달\n"
+    } else {
+       result += "융합전공: 최소학점 기준 통과_세부기준 확인요망\n"
+    }
+  }
+
+  if (!designNone.checked) {
+    if (Number(designSt.value) > [Number(designCrts.value) + Number(designCrts2.value)]) {
+      result += "자기설계전공: " + [Number(designSt.value) - Number(designCrts.value) - Number(designCrts2.value)] + "학점 미달\n"
+    } else {
+       result += "자기설계전공: 최소학점 기준 통과_세부기준 확인요망\n"
+    }
+  }
+
+  if (!secondNone.checked) {
+    if (Number(secondSt.value) > Number(secondCrts.value)) {
+      result += "부전공: " + [Number(secondSt.value) - Number(secondCrts.value)] + "학점 미달\n"
+    } else {
+      result += "부전공: 최소학점 기준 통과_세부기준 확인요망\n"
+    }
+  }
+
+  if(!cauceminar.checked) {
+    result += "자유선택: CAU세미나 미이수, " + Number(freeCrts.value) + "학점 이수\n"
+  } else {
+    result += "자유선택: CAU세미나 이수, " + Number(freeCrts.value) + "학점 이수\n"
+  }
+
+  if(!teachNone.checked) {
+    if (Number(teachSt.value) > Number(teachCrts.value)) {
+      result += "교직: " + [Number(teachSt.value) - Number(teachCrts.value)] + "학점 미달\n"
+    } else {
+      result += "교직: 최소학점 기준 통과_세부기준 확인요망\n"
+    }
+  }
+
+  if(Number(majsumSt.value) > Number(majCrts.value)) {
+    result += "총 이수학점: " + [Number(majsumSt.value) - Number(majCrts.value)] + "학점 미달\n"
+  } else {
+    result += "총 이수학점: 기준 통과"
+  }
+
+  alert(result);
+};
+
+function majsumCal() {
+  document.getElementById("majsum").value =
+  Number(baseCrts.value) + Number(majorCrts.value) + Number(minorCrts.value) + Number(linkCrts.value) + Number(convCrts.value) + Number(designCrts.value) + Number(secondCrts.value) + Number(freeCrts.value) + Number(teachCrts.value);
+};
+
+baseCrts.addEventListener("change", majsumCal);
+majorCrts.addEventListener("change", majsumCal);
+minorCrts.addEventListener("change", majsumCal);
+linkCrts.addEventListener("change", majsumCal);
+convCrts.addEventListener("change", majsumCal);
+designCrts.addEventListener("change", majsumCal);
+secondCrts.addEventListener("change", majsumCal);
+freeCrts.addEventListener("change", majsumCal);
+teachCrts.addEventListener("change", majsumCal);
+
+majorCheck.addEventListener("click", majorResult);
 
 function etcResult() {
   const engExam = document.getElementById("eng-grade").checked;
@@ -256,6 +333,6 @@ function etcResult() {
   }
 
   alert(etcResult);
-}
+};
 
 etcCheck.addEventListener("click", etcResult);
