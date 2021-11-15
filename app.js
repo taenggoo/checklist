@@ -1,6 +1,8 @@
+//기본정보
 const year = document.getElementById("enteryear");
-const multiMajor = document.getElementById("multi-major"); //기본정보
+const multiMajor = document.getElementById("multi-major");
 
+//교양
 const libForm = document.getElementById("liberal-form");
 const majorForm = document.getElementById("major-form");
 const etcForm = document.getElementById("etc-form");
@@ -15,8 +17,9 @@ const coreCrts = document.getElementById("core");
 const choiceSt = document.getElementById("choice-st");
 const choice = document.getElementById("choice");
 const sumSt = document.getElementById("sum-st");
-const sumCrts = document.getElementById("sum"); //교양
+const sumCrts = document.getElementById("sum");
 
+//전공
 const baseSt = document.getElementById("base-st");
 const baseCrts = document.getElementById("major_base");
 const reqSt = document.getElementById("req-st");
@@ -47,16 +50,16 @@ const cauceminar = document.getElementById("CAU_CEMINAR");
 const teachSt = document.getElementById("teach-st");
 const teachCrts = document.getElementById("teach");
 const teachNone = document.getElementById("teach-check");
-const majsumSt = document.getElementById("majsum-st");
-const majCrts = document.getElementById("majsum"); //전공
+const totalSt = document.getElementById("total-st");
+const totalCrts = document.getElementById("total");
 
-
+//각 영역 체크,리셋 버튼
 const libCheck = document.getElementById("liberalcheck");
 const libReset = document.getElementById("liberalreset");
 const majorCheck = document.getElementById("major-check");
 const majorReset = document.getElementById("major-reset");
 const etcCheck = document.getElementById("etc-check");
-const etcReset = document.getElementById("etc-reset"); //각 영역 체크,리셋 버튼
+const etcReset = document.getElementById("etc-reset");
 
 function libResult() {
   if (Number(year.value) === 0) {
@@ -125,6 +128,8 @@ function libCal() {
 
   if (Number(sumSt.value) > Number(sumCrts.value)) {
     result += "교양합계: " + [Number(sumSt.value) - Number(sumCrts.value)] + "학점 미달"
+  } else if (Number(sumCrts.value) > 45) {
+    result += "교양합계: 최대 인정 학점 초과_교양은 45학점까지만 인정됩니다"
   } else {
     result += "교양합계: 기준 통과"
   }
@@ -133,7 +138,7 @@ function libCal() {
 };
 
 function sumCal() {
-  document.getElementById("sum").value = Number(korCrts.value) + Number(engCrts.value) + Number(etcCrts.value) + Number(coreCrts.value) + Number(choice.value);
+  sumCrts.value = Number(korCrts.value) + Number(engCrts.value) + Number(etcCrts.value) + Number(coreCrts.value) + Number(choice.value);
 };
 
 korCrts.addEventListener("change", sumCal);
@@ -151,11 +156,13 @@ function resetor(form) {
 libReset.addEventListener("click", function() {
   resetor(libForm)
 });
-
 majorReset.addEventListener("click", function() {
   resetor(majorForm)
 });
-
+majorReset.addEventListener("click", function() {
+  const multiMajorForm = document.getElementById("multiMajor-form")
+  resetor(multiMajorForm);
+})
 etcReset.addEventListener("click", function() {
   resetor(etcForm)
 });
@@ -257,8 +264,8 @@ function majorCal() {
     }
   }
 
-  if(Number(majsumSt.value) > Number(majCrts.value)) {
-    result += "총 이수학점: " + [Number(majsumSt.value) - Number(majCrts.value)] + "학점 미달\n"
+  if(Number(totalSt.value) > Number(totalCrts.value)) {
+    result += "총 이수학점: " + [Number(totalSt.value) - Number(totalCrts.value)] + "학점 미달\n"
   } else {
     result += "총 이수학점: 기준 통과"
   }
@@ -266,22 +273,29 @@ function majorCal() {
   alert(result);
 };
 
-function majsumCal() {
-  document.getElementById("majsum").value =
-  Number(baseCrts.value) + Number(majorCrts.value) + Number(minorCrts.value) + Number(linkCrts.value) + Number(convCrts.value) + Number(designCrts.value) + Number(secondCrts.value) + Number(freeCrts.value) + Number(teachCrts.value);
+majorCheck.addEventListener("click", majorResult);
+
+function totalCal() {
+  if (Number(sumCrts.value) > 45) {
+    totalCrts.value =
+    45 + Number(baseCrts.value) + Number(majorCrts.value) + Number(minorCrts.value) + Number(linkCrts.value) + Number(convCrts.value) + Number(designCrts.value)
+    + Number(secondCrts.value) + Number(freeCrts.value) + Number(teachCrts.value);
+  } else {
+  totalCrts.value =
+  Number(sumCrts.value) + Number(baseCrts.value) + Number(majorCrts.value) + Number(minorCrts.value) + Number(linkCrts.value) + Number(convCrts.value) + Number(designCrts.value)
+  + Number(secondCrts.value) + Number(freeCrts.value) + Number(teachCrts.value);
+   }
 };
 
-baseCrts.addEventListener("change", majsumCal);
-majorCrts.addEventListener("change", majsumCal);
-minorCrts.addEventListener("change", majsumCal);
-linkCrts.addEventListener("change", majsumCal);
-convCrts.addEventListener("change", majsumCal);
-designCrts.addEventListener("change", majsumCal);
-secondCrts.addEventListener("change", majsumCal);
-freeCrts.addEventListener("change", majsumCal);
-teachCrts.addEventListener("change", majsumCal);
-
-majorCheck.addEventListener("click", majorResult);
+baseCrts.addEventListener("change", totalCal);
+majorCrts.addEventListener("change", totalCal);
+minorCrts.addEventListener("change", totalCal);
+linkCrts.addEventListener("change", totalCal);
+convCrts.addEventListener("change", totalCal);
+designCrts.addEventListener("change", totalCal);
+secondCrts.addEventListener("change", totalCal);
+freeCrts.addEventListener("change", totalCal);
+teachCrts.addEventListener("change", totalCal);
 
 function etcResult() {
   const engExam = document.getElementById("eng-grade").checked;
@@ -336,3 +350,222 @@ function etcResult() {
 };
 
 etcCheck.addEventListener("click", etcResult);
+
+function colorChange(st, crts) {
+  if (Number(st.value) > Number(crts.value)) {
+    crts.style.color = "red";
+  } else {
+    crts.style.color = "blue";
+  }
+}
+
+//교양영역 색 변화
+korCrts.addEventListener("change", function() {
+  colorChange(korSt, korCrts)
+});
+engCrts.addEventListener("change", function() {
+  colorChange(engSt, engCrts)
+});
+etcCrts.addEventListener("change", function() {
+  colorChange(etcSt, etcCrts)
+});
+coreCrts.addEventListener("change", function() {
+  colorChange(coreSt,coreCrts)
+});
+choice.addEventListener("change", function() {
+  colorChange(choiceSt, choice)
+});
+
+//교양합계 색 변화
+korCrts.addEventListener("change", function() {
+  colorChange(sumSt, sumCrts)
+});
+engCrts.addEventListener("change", function() {
+  colorChange(sumSt, sumCrts)
+});
+etcCrts.addEventListener("change", function() {
+  colorChange(sumSt, sumCrts)
+});
+coreCrts.addEventListener("change", function() {
+  colorChange(sumSt, sumCrts)
+});
+choice.addEventListener("change", function() {
+  colorChange(sumSt, sumCrts)
+});
+
+//전공영역 색 변화
+baseCrts.addEventListener("change", function() {
+  colorChange(baseSt, baseCrts)
+});
+reqCrts.addEventListener("change", function() {
+  colorChange(reqSt, reqCrts)
+});
+majorCrts.addEventListener("change", function() {
+  colorChange(majorSt, majorCrts)
+});
+minorCrts.addEventListener("change", function() {
+  colorChange(minorSt, minorCrts)
+});
+linkCrts.addEventListener("change", function() {
+  colorChange(linkSt, linkCrts)
+});
+convCrts.addEventListener("change", function() {
+  colorChange(convSt, convCrts)
+});
+designCrts.addEventListener("change", function() {
+  colorChange(designSt, designCrts)
+});
+secondCrts.addEventListener("change", function() {
+  colorChange(secondSt, secondCrts)
+});
+freeCrts.addEventListener("change", function() {
+  colorChange(freeSt, freeCrts)
+});
+teachCrts.addEventListener("change", function() {
+  colorChange(teachSt, teachCrts)
+});
+
+//전공합계 색 변화
+baseCrts.addEventListener("change", function() {
+  colorChange(totalSt, totalCrts)
+});
+reqCrts.addEventListener("change", function() {
+  colorChange(totalSt, totalCrts)
+});
+majorCrts.addEventListener("change", function() {
+  colorChange(totalSt, totalCrts)
+});
+minorCrts.addEventListener("change", function() {
+  colorChange(totalSt, totalCrts)
+});
+linkCrts.addEventListener("change", function() {
+  colorChange(totalSt, totalCrts)
+});
+convCrts.addEventListener("change", function() {
+  colorChange(totalSt, totalCrts)
+});
+designCrts.addEventListener("change", function() {
+  colorChange(totalSt, totalCrts)
+});
+secondCrts.addEventListener("change", function() {
+  colorChange(totalSt, totalCrts)
+});
+freeCrts.addEventListener("change", function() {
+  colorChange(totalSt, totalCrts)
+});
+teachCrts.addEventListener("change", function() {
+  colorChange(totalSt, totalCrts)
+});
+
+function gpaColorChange() {
+  if (2 > Number(gpa.value)) {
+    gpa.style.color = "red";
+  } else {
+    gpa.style.color = "blue";
+  }
+}
+
+gpa.addEventListener("change", gpaColorChange)
+
+function noneHandler(none, crts) {
+  if (none.checked) {
+    crts.readOnly = true;
+    crts.value = 0;
+  } else {
+    crts.readOnly = false;
+  }
+}
+
+secondNone.addEventListener("change", function() {
+  noneHandler(secondNone, secondCrts)});
+secondNone.addEventListener("change", totalCal)
+
+function multiMajorChange() {
+  const multiMajorText = multiMajor.options[multiMajor.selectedIndex].text;
+  const minorTable = document.getElementById("minor-table");
+  const linkTable = document.getElementById("link-table");
+  const convTable = document.getElementById("conv-table");
+  const designTable = document.getElementById("design-table");
+  majorSt.value = multiMajor.value;
+  if (multiMajorText === "----") {
+    minorTable.style.display = "none";
+    minorCrts.value = 0;
+    minorNone.checked = true;
+    linkTable.style.display = "none";
+    linkCrts.value = 0;
+    linkNone.checked = true;
+    convTable.style.display = "none";
+    convCrts.value = 0;
+    convNone.checked = true;
+    designTable.style.display = "none";
+    designCrts.value = 0;
+    designNone.checked = true;
+  } else if (multiMajorText === "전공심화"){
+    minorTable.style.display = "none";
+    minorCrts.value = 0;
+    minorNone.checked = true;
+    linkTable.style.display = "none";
+    linkCrts.value = 0;
+    linkNone.checked = true;
+    convTable.style.display = "none";
+    convCrts.value = 0;
+    convNone.checked = true;
+    designTable.style.display = "none";
+    designCrts.value = 0;
+    designNone.checked = true;
+  } else if (multiMajorText === "복수전공"){
+    minorTable.style.display = "";
+    minorCrts.value = 0;
+    minorNone.checked = false;
+    linkTable.style.display = "none";
+    linkCrts.value = 0;
+    linkNone.checked = true;
+    convTable.style.display = "none";
+    convCrts.value = 0;
+    convNone.checked = true;
+    designTable.style.display = "none";
+    designCrts.value = 0;
+    designNone.checked = true;
+  } else if (multiMajorText === "연계전공"){
+    minorTable.style.display = "none";
+    minorCrts.value = 0;
+    minorNone.checked = true;
+    linkTable.style.display = "";
+    linkCrts.value = 0;
+    linkNone.checked = false;
+    convTable.style.display = "none";
+    convCrts.value = 0;
+    convNone.checked = true;
+    designTable.style.display = "none";
+    designCrts.value = 0;
+    designNone.checked = true;
+  } else if (multiMajorText === "융합전공"){
+    minorTable.style.display = "none";
+    minorCrts.value = 0;
+    minorNone.checked = true;
+    linkTable.style.display = "none";
+    linkCrts.value = 0;
+    linkNone.checked = true;
+    convTable.style.display = "";
+    convCrts.value = 0;
+    convNone.checked = false;
+    designTable.style.display = "none";
+    designCrts.value = 0;
+    designNone.checked = true;
+  } else if (multiMajorText === "자기설계전공"){
+    minorTable.style.display = "none";
+    minorCrts.value = 0;
+    minorNone.checked = true;
+    linkTable.style.display = "none";
+    linkCrts.value = 0;
+    linkNone.checked = true;
+    convTable.style.display = "none";
+    convCrts.value = 0;
+    convNone.checked = true;
+    designTable.style.display = "";
+    designCrts.value = 0;
+    designNone.checked = false;
+  }
+}
+
+multiMajor.addEventListener("change", multiMajorChange)

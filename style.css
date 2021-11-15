@@ -65,7 +65,7 @@ body {
      background-color: white;
      color: black;
      text-align: center;
-     padding: 0;
+     padding: 0.3rem;
    }
 
    input[type=text] {
