@@ -64,21 +64,19 @@ const etcReset = document.getElementById("etc-reset");
 function libResult() {
   if (Number(year.value) === 0) {
     year.scrollIntoView();
-    return alert("입학년도를 선택하세요!");
+    return swal("입학년도를 선택하세요!", "", "error");
   } else {
     libCal();
   }
 }
 
 function libCal() {
-  let result = "<교양영역 결과>\n\n";
+  let result = "입학년도: " + Number(year.value) + "년도\n\n공통교양\n";
   const core1 = document.getElementById("core1").checked;
   const core2 = document.getElementById("core2").checked;
   const core3 = document.getElementById("core3").checked;
   const core4 = document.getElementById("core4").checked;
   const core5 = document.getElementById("core5").checked;
-
-  result += "입학년도: " + Number(year.value) + "년도\n공통교양\n"
 
   if (Number(korSt.value) > Number(korCrts.value)) {
     result += " - 국어: " + [Number(korSt.value) - Number(korCrts.value)] + "학점 미달\n"
@@ -134,8 +132,28 @@ function libCal() {
     result += "교양합계: 기준 통과"
   }
 
-  alert(result);
-};
+if (Number(korSt.value) <= Number(korCrts.value)
+ && Number(engSt.value) <= Number(engCrts.value)
+ && Number(etcSt.value) <= Number(etcCrts.value)
+ && Number(etcSt.value) <= Number(etcCrts.value)
+ && Number(coreSt.value) <= Number(coreCrts.value)
+ && core1 && core2 && core3 && core4 && core5
+ && Number(sumSt.value) <= Number(sumCrts.value)
+ && Number(sumCrts.value) <= 45) {
+   swal("<교양영역 결과>",result,"success");
+} else if (Number(korSt.value) <= Number(korCrts.value)
+ && Number(engSt.value) <= Number(engCrts.value)
+ && Number(etcSt.value) <= Number(etcCrts.value)
+ && Number(etcSt.value) <= Number(etcCrts.value)
+ && Number(coreSt.value) <= Number(coreCrts.value)
+ && core1 && core2 && core3 && core4 && core5
+ && Number(sumSt.value) <= Number(sumCrts.value)
+ && Number(sumCrts.value) > 45) {
+   swal("<교양영역 결과>",result,"warning")
+ } else {
+   swal("<교양영역 결과>",result,"error")
+ }
+}
 
 function sumCal() {
   sumCrts.value = Number(korCrts.value) + Number(engCrts.value) + Number(etcCrts.value) + Number(coreCrts.value) + Number(choice.value);
@@ -164,33 +182,41 @@ majorReset.addEventListener("click", function() {
   resetor(multiMajorForm);
 })
 etcReset.addEventListener("click", function() {
-  resetor(etcForm)
-});
+  resetor(etcForm);
+})
+
+function majorTableReset() {
+  document.getElementById("minor-table").style.display = "none";
+  document.getElementById("link-table").style.display = "none";
+  document.getElementById("conv-table").style.display = "none";
+  document.getElementById("design-table").style.display = "none";
+}
+
+majorReset.addEventListener("click", majorTableReset);
 
 function majorResult() {
   if (Number(year.value) === 0) {
     year.scrollIntoView();
-    return alert("입학년도를 선택하세요!");
+    return swal("입학년도를 선택하세요!","","error");
   } else if(Number(multiMajor.value) === 0){
     year.scrollIntoView();
-    return alert("다전공을 선택하세요!");
+    return swal("다전공을 선택하세요!","","error");
   } else if (Number(linkCrts2.value) > 6) {
     linkCrts2.scrollIntoView();
-    return alert("연계전공의 교차인정 최대 학점은 6학점입니다");
+    return swal("","연계전공의 교차인정 최대 학점은 6학점입니다","error");
   } else if (Number(convCrts2.value) > 6) {
     convCrts2.scrollIntoView();
-    return alert("융합전공의 교차인정 최대 학점은 6학점입니다");
+    return swal("","융합전공의 교차인정 최대 학점은 6학점입니다","error");
   } else if (Number(designCrts2.value) > 6) {
     designCrts2.scrollIntoView();
-    return alert("자기설계전공의 교차인정 최대 학점은 6학점입니다");
+    return swal("","자기설계전공의 교차인정 최대 학점은 6학점입니다","error");
   } else {
     majorCal();
   }
 };
 
 function majorCal() {
-  let result = "<전공영역 결과>\n"
-  result += "입학년도: " + Number(year.value) + "년도\n\n"
+  let result = "입학년도: " + Number(year.value) + "년도\n\n"
 
   if (Number(baseSt.value) > Number(baseCrts.value)) {
     result += "전공기초: " + [Number(baseSt.value) - Number(baseCrts.value)] + "학점 미달\n"
@@ -270,7 +296,17 @@ function majorCal() {
     result += "총 이수학점: 기준 통과"
   }
 
-  alert(result);
+  if(Number(baseSt.value) <= Number(baseCrts.value)
+     && Number(reqSt.value) <= Number(reqCrts.value)
+     && Number(majorSt.value) <= Number(majorCrts.value)
+     && (minorNone.checked || Number(minorSt.value) <= Number(minorCrts.value))
+     && (linkNone.checked || Number(linkSt.value) <= [Number(linkCrts.value)+Number(linkCrts2.value)])
+     && (convNone.checked || Number(convSt.value) <= [Number(convCrts.value)+Number(convCrts2.value)])
+     && (designNone.checked || Number(designSt.value) <= [Number(designCrts.value)+Number(designCrts2.value)])
+     && Number(totalSt.value) <= Number(totalCrts.value)){
+     swal("<전공영역 결과>",result,"success");
+   } else {
+  swal("<전공영역 결과>",result,"error");}
 };
 
 majorCheck.addEventListener("click", majorResult);
@@ -306,7 +342,7 @@ function etcResult() {
   const gpa = Number(document.getElementById("gpa").value);
 
 
-  let etcResult = "<기타 졸업요건 결과>\n\n졸업인정제 결과\n"
+  let etcResult = "졸업인정제 결과\n"
 
   if (!engExam) {
     etcResult += "-영어: 미통과\n"
@@ -346,7 +382,7 @@ function etcResult() {
     etcResult += "전 학년 평점: 기준 통과"
   }
 
-  alert(etcResult);
+  swal("<기타 졸업요건 결과>",etcResult,"success");
 };
 
 etcCheck.addEventListener("click", etcResult);
@@ -478,7 +514,7 @@ function noneHandler(none, crts) {
 
 secondNone.addEventListener("change", function() {
   noneHandler(secondNone, secondCrts)});
-secondNone.addEventListener("change", totalCal)
+secondNone.addEventListener("change", totalCal);
 
 function multiMajorChange() {
   const multiMajorText = multiMajor.options[multiMajor.selectedIndex].text;
@@ -486,7 +522,9 @@ function multiMajorChange() {
   const linkTable = document.getElementById("link-table");
   const convTable = document.getElementById("conv-table");
   const designTable = document.getElementById("design-table");
+
   majorSt.value = multiMajor.value;
+
   if (multiMajorText === "----") {
     minorTable.style.display = "none";
     minorCrts.value = 0;
@@ -500,7 +538,7 @@ function multiMajorChange() {
     designTable.style.display = "none";
     designCrts.value = 0;
     designNone.checked = true;
-  } else if (multiMajorText === "전공심화"){
+  } else if (multiMajorText === "전공심화") {
     minorTable.style.display = "none";
     minorCrts.value = 0;
     minorNone.checked = true;
@@ -513,7 +551,7 @@ function multiMajorChange() {
     designTable.style.display = "none";
     designCrts.value = 0;
     designNone.checked = true;
-  } else if (multiMajorText === "복수전공"){
+  } else if (multiMajorText === "복수전공") {
     minorTable.style.display = "";
     minorCrts.value = 0;
     minorNone.checked = false;
@@ -526,7 +564,7 @@ function multiMajorChange() {
     designTable.style.display = "none";
     designCrts.value = 0;
     designNone.checked = true;
-  } else if (multiMajorText === "연계전공"){
+  } else if (multiMajorText === "연계전공") {
     minorTable.style.display = "none";
     minorCrts.value = 0;
     minorNone.checked = true;
@@ -539,7 +577,7 @@ function multiMajorChange() {
     designTable.style.display = "none";
     designCrts.value = 0;
     designNone.checked = true;
-  } else if (multiMajorText === "융합전공"){
+  } else if (multiMajorText === "융합전공") {
     minorTable.style.display = "none";
     minorCrts.value = 0;
     minorNone.checked = true;
@@ -552,7 +590,7 @@ function multiMajorChange() {
     designTable.style.display = "none";
     designCrts.value = 0;
     designNone.checked = true;
-  } else if (multiMajorText === "자기설계전공"){
+  } else if (multiMajorText === "자기설계전공") {
     minorTable.style.display = "none";
     minorCrts.value = 0;
     minorNone.checked = true;
@@ -568,4 +606,11 @@ function multiMajorChange() {
   }
 }
 
-multiMajor.addEventListener("change", multiMajorChange)
+multiMajor.addEventListener("change", multiMajorChange);
+
+const aboutBtn = document.getElementById("about")
+function aboutInfo() {
+  swal("개발자 정보", "code by 태윤\nE-mail: tjxodbs9417@naver.com", "info")
+}
+
+aboutBtn.addEventListener("click", aboutInfo);
