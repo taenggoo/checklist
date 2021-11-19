@@ -303,10 +303,25 @@ function majorCal() {
      && (linkNone.checked || Number(linkSt.value) <= [Number(linkCrts.value)+Number(linkCrts2.value)])
      && (convNone.checked || Number(convSt.value) <= [Number(convCrts.value)+Number(convCrts2.value)])
      && (designNone.checked || Number(designSt.value) <= [Number(designCrts.value)+Number(designCrts2.value)])
-     && Number(totalSt.value) <= Number(totalCrts.value)){
+     && Number(totalSt.value) <= Number(totalCrts.value)
+     && (secondNone.checked || Number(secondSt.value) <= Number(secondCrts.value))
+     && Number(freeSt.value) <= Number(freeCrts.value) && cauceminar.checked
+     && (teachNone.checked || Number(teachSt.value) <= Number(teachCrts.value))){
      swal("<전공영역 결과>",result,"success");
+   } else if(Number(baseSt.value) <= Number(baseCrts.value)
+      && Number(reqSt.value) <= Number(reqCrts.value)
+      && Number(majorSt.value) <= Number(majorCrts.value)
+      && (minorNone.checked || Number(minorSt.value) <= Number(minorCrts.value))
+      && (linkNone.checked || Number(linkSt.value) <= [Number(linkCrts.value)+Number(linkCrts2.value)])
+      && (convNone.checked || Number(convSt.value) <= [Number(convCrts.value)+Number(convCrts2.value)])
+      && (designNone.checked || Number(designSt.value) <= [Number(designCrts.value)+Number(designCrts2.value)])
+      && Number(totalSt.value) <= Number(totalCrts.value)
+      && (secondNone.checked || Number(secondSt.value) <= Number(secondCrts.value))
+      && Number(freeSt.value) <= Number(freeCrts.value) && !cauceminar.checked
+      && (teachNone.checked || Number(teachSt.value) <= Number(teachCrts.value))){
+      swal("<전공영역 결과>",result,"warning");
    } else {
-  swal("<전공영역 결과>",result,"error");}
+     swal("<전공영역 결과>",result,"error");}
 };
 
 majorCheck.addEventListener("click", majorResult);
@@ -382,7 +397,10 @@ function etcResult() {
     etcResult += "전 학년 평점: 기준 통과"
   }
 
-  swal("<기타 졸업요건 결과>",etcResult,"success");
+if (engExam  && chiExam && korExam && paper && douPaper && gpa >= 2){
+      swal("<기타 졸업요건 결과>",etcResult,"success");
+    } else { swal("<기타 졸업요건 결과>",etcResult,"error");
+ }
 };
 
 etcCheck.addEventListener("click", etcResult);
@@ -515,6 +533,10 @@ function noneHandler(none, crts) {
 secondNone.addEventListener("change", function() {
   noneHandler(secondNone, secondCrts)});
 secondNone.addEventListener("change", totalCal);
+
+teachNone.addEventListener("change", function() {
+  noneHandler(teachNone, teachCrts)});
+teachNone.addEventListener("change", totalCal);
 
 function multiMajorChange() {
   const multiMajorText = multiMajor.options[multiMajor.selectedIndex].text;
